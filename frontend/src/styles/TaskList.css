@@ -1,0 +1,63 @@
+/* Each column (Todo, In Progress, Review, Done) */
+.task-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--column-bg, #f4f4f4);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Light and dark theme adjustments */
+body.light .task-column {
+  background-color: #ffffff;
+}
+
+body.dark .task-column {
+  background-color: #2e2e2e;
+  color: #f1f1f1;
+}
+
+/* Column title */
+.task-column h2 {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+body.light .task-column {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+}
+
+body.dark .task-column {
+  background-color: #333;
+  border: 1px solid #444;
+}
+/*
+.task-column:hover {
+  transform: translateY(-3px);
+}
+*/
+.task-column .no-tasks-text {
+  justify-self: center;
+}
+
+/* === Column Title === */
+.task-column-title {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+/* === Task List === */
+.tasks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

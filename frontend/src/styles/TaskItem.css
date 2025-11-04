@@ -1,0 +1,122 @@
+/* === Task Item === */
+.tasks-item {
+  display: flex;
+  align-items: center; /* stretch children to full height */
+  justify-content: space-between;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: background-color 0.3s, transform 0.1s ease-in-out;
+}
+
+body.light .tasks-item {
+  background-color: #f8f9fb;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+
+body.dark .tasks-item {
+  background-color: #3a3a3a;
+  border-bottom: 1px solid #555;
+  border-right: 1px solid #555;
+  border-top: 1px solid #555;
+}
+
+.tasks-item:hover {
+  transform: scale(1.02);
+}
+
+body.light .tasks-item:hover {
+  background-color: #eef3f7;
+}
+
+body.dark .tasks-item:hover {
+  background-color: #4a4a4a;
+}
+
+/* === Task Info === */
+.tasks-item_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.tasks-item_info a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  color: inherit;
+}
+
+.tasks-item_info a:hover {
+  text-decoration: underline;
+}
+
+.tasks-item_info p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* === Buttons === */
+.tasks-item_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* or flex-start if you prefer left alignment */
+  justify-content: flex-start;
+  gap: 10px;
+  height: 100%;
+  padding-top: 4px;
+}
+
+/* Common icon behavior */
+.tasks-item_buttons .button {
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.2s ease;
+  margin: 5px;
+}
+
+.tasks-item_buttons .button:hover {
+  transform: scale(1.1);
+}
+
+/* -------------------- */
+/* Light Theme */
+/* -------------------- */
+
+body.light .tasks-item_buttons .button-edit {
+  color: #3b82f6; /* soft professional blue */
+}
+
+body.light .tasks-item_buttons .button-edit:hover {
+  color: #2563eb; /* darker blue on hover */
+}
+
+body.light .tasks-item_buttons .button-delete {
+  color: #ef4444; /* subtle red */
+}
+
+body.light .tasks-item_buttons .button-delete:hover {
+  color: #dc2626; /* darker red on hover */
+}
+
+/* -------------------- */
+/* Dark Theme */
+/* -------------------- */
+
+body.dark .tasks-item_buttons .button-edit {
+  color: #60a5fa; /* lighter blue for dark mode */
+}
+
+body.dark .tasks-item_buttons .button-edit:hover {
+  color: #93c5fd; /* gentle glow effect */
+}
+
+body.dark .tasks-item_buttons .button-delete {
+  color: #f87171; /* soft red for dark backgrounds */
+}
+
+body.dark .tasks-item_buttons .button-delete:hover {
+  color: #fca5a5;
+}

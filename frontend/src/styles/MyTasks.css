@@ -1,0 +1,171 @@
+/* === Overall Page Layout === */
+.main-layout {
+  display: flex;
+  gap: 20px;
+  max-width: 100%;
+  margin: 40px auto;
+  padding: 20px;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* === Sidebar === */
+.sidebar-container {
+  width: 20%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: fit-content;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+}
+
+/* Light Theme */
+body.light .sidebar-container {
+  background-color: #ffffff;
+  color: #222;
+  border: 1px solid #ddd;
+}
+
+/* Dark Theme */
+body.dark .sidebar-container {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  border: 1px solid #444;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+/* === Sidebar Content === */
+.sidebar-container h2 {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.sidebar-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-container li {
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.1s;
+}
+
+body.light .sidebar-container li:hover {
+  background-color: #f0f0f0;
+}
+
+body.dark .sidebar-container li:hover {
+  background-color: #444;
+}
+
+.sidebar-container li:active {
+  transform: scale(0.97);
+}
+
+/* === Main Tasks Container === */
+.tasks-container {
+  flex: 1;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Light Theme */
+body.light .tasks-container {
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+/* Dark Theme */
+body.dark .tasks-container {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+/* === Heading === */
+.tasks-container > h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* === Task Columns Grid === */
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  align-items: start;
+}
+
+/* === Buttons === */
+.tasks-container button {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.1s ease;
+}
+
+/* Light Theme Buttons */
+body.light .tasks-container button {
+  background: #f9f9f9;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+body.light .tasks-container button:hover {
+  background: #e2e4e7;
+}
+
+/* Dark Theme Buttons */
+body.dark .tasks-container button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body.dark .tasks-container button:hover {
+  background: #444;
+}
+
+.tasks-container button:active {
+  transform: scale(0.98);
+}
+
+/* === Responsive Design === */
+@media (max-width: 900px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .sidebar-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tasks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .tasks-container button {
+    width: 100%;
+  }
+}
