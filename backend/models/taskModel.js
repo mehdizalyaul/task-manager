@@ -9,14 +9,14 @@ export const getAll = () => {
     });
   });
 };
-
+/*
 // Add new task
 export const add = (newTask, userId) => {
   const { title, description, status, priority, dueDate } = newTask;
 
   return new Promise((resolve, reject) => {
     db.query(
-      "INSERT INTO tasks (title,description, status, priority,dueDate,user_id ) VALUES (? ,? ,? ,? ,? ,? )",
+      "INSERT INTO tasks (title,description, status, priority,due_date,created_by ) VALUES (? ,? ,? ,? ,? ,? )",
       [title, description, status, priority, dueDate, userId],
       (err, results) => {
         if (err) return reject(err);
@@ -28,6 +28,40 @@ export const add = (newTask, userId) => {
           priority,
           dueDate,
         });
+      }
+    );
+  });
+};
+*/
+
+// Add new task To project
+export const add = async (newProject) => {
+  const {
+    title,
+    description,
+    status,
+    priority,
+    due_date,
+    created_by,
+    project_id,
+  } = newProject;
+  return new Promise((resolve, reject) => {
+    db.query(
+      "INSERT INTO tasks (title,description, status, priority,due_date,created_by,project_id) VALUES (?, ?, ?,?,?,?,?);",
+      [title, description, status, priority, due_date, created_by, project_id],
+      (err, results) => {
+        if (err) return reject(err);
+
+        const insertedId = results.insertId;
+        // ✅ Fetch the created project by its ID
+        db.query(
+          "SELECT * FROM tasks WHERE id = ?",
+          [insertedId],
+          (err2, rows) => {
+            if (err2) return reject(err2);
+            resolve(rows[0]); // return the full created project object
+          }
+        );
       }
     );
   });
@@ -72,7 +106,7 @@ export const deleteOne = (id) => {
   });
 };
 
-// GET A USER BY ID
+// GET A Task by User ID
 export const getTasksById = (id) => {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM tasks WHERE user_id = ? ";
@@ -82,5 +116,18 @@ export const getTasksById = (id) => {
       }
       resolve(results);
     });
+  });
+};
+
+export const getByProject = async (id) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "SELECT t.*, p.title as project_name FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.project_id = ?",
+      [id],
+      (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      }
+    );
   });
 };

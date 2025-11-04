@@ -1,10 +1,10 @@
-import * as Task from "../models/taskModel.js";
+import { Task } from "../models/index.js";
 
 // Get all tasks
 export const fetchTasks = async (req, res, next) => {
   try {
     const tasks = await Task.getAll();
-    res.json(tasks);
+    res.json({ success: false, data: tasks });
   } catch (error) {
     next(error);
   }
@@ -14,14 +14,20 @@ export const fetchTasks = async (req, res, next) => {
 export const createTask = async (req, res, next) => {
   try {
     const newTask = req.body;
-    console.log(newTask);
-    if (!newTask) return res.status(400).json({ error: "Title is required" });
+    if (!newTask)
+      return res
+        .status(400)
+        .json({ success: false, message: "New task not provided" });
+
     const userId = req.user.userId;
-    if (!userId) return res.status(400).json({ error: "User is not found" });
+    if (!userId)
+      return res
+        .status(400)
+        .json({ success: false, message: "User is not found" });
 
     const task = await Task.add(newTask, userId);
-    console.log(task);
-    res.status(201).json(task);
+
+    res.status(201).json({ success: true, data: task });
   } catch (error) {
     next(error);
   }
@@ -32,14 +38,18 @@ export const updateTask = async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!id) {
-      res.status(400).json("ID Not in params Provided");
+      res
+        .status(400)
+        .json({ success: false, message: "ID Not in params Provided" });
     }
     const updatedTask = req.body;
     if (!updatedTask) {
-      res.status(400).json("Updated Task Not Provided");
+      res
+        .status(400)
+        .json({ success: false, message: "Updated Task Not Provided" });
     }
     await Task.update(updatedTask);
-    res.json({ message: "Task updated successfully" });
+    res.json({ success: true, message: "Task updated successfully" });
   } catch (error) {
     next(error);
   }
@@ -50,7 +60,7 @@ export const removeTask = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Task.deleteOne(id);
-    res.json({ message: "Task deleted successfully" });
+    res.json({ success: true, message: "Task deleted successfully" });
   } catch (error) {
     next(error);
   }
@@ -61,7 +71,7 @@ export const getTasksById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const tasks = await Task.getTasksById(id);
-    res.status(200).json({ tasks });
+    res.status(200).json({ success: true, data: tasks });
   } catch (error) {
     next(error);
   }
@@ -72,14 +82,16 @@ export const updateTaskStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!id) {
-      res.status(400).json("ID Not in params Provided");
+      res
+        .status(400)
+        .json({ success: false, message: "ID Not in params Provided" });
     }
     const { status } = req.body;
     if (!status) {
-      res.status(400).json("Status Not Provided");
+      res.status(400).json({ success: false, message: "Status Not Provided" });
     }
     await Task.updateStatus(id, status);
-    res.json({ message: "Status updated successfully" });
+    res.json({ success: true, message: "Status updated successfully" });
   } catch (error) {
     next(error);
   }

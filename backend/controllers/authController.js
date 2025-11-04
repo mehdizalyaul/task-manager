@@ -1,12 +1,11 @@
-import * as User from "../models/authModel.js";
+import { User } from "../models/index.js";
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const EXPIRES_IN = "1h";
-
-if (!JWT_SECRET) {
-  throw Error("JWT SECRET IS NOT PROVIDED");
+const EXPIRES_IN = process.env.EXPIRES_IN;
+if (!JWT_SECRET || !EXPIRES_IN) {
+  throw Error("JWT SECRET OR EXPIRES_IN IS NOT PROVIDED");
 }
 
 export const register = async (req, res) => {

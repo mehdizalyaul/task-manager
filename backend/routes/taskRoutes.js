@@ -1,19 +1,12 @@
 import express from "express";
-import {
-  fetchTasks,
-  createTask,
-  updateTask,
-  removeTask,
-  getTasksById,
-  updateTaskStatus,
-} from "../controllers/taskController.js";
+import { TaskController } from "../controllers/index.js";
 import { validateId, validateTask } from "../validators/validateTask.js";
 import { validate } from "../middleware/validate.js";
 import { authorize } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // get all Tasks
-router.get("/", authorize(["admin"]), fetchTasks);
+router.get("/", authorize(["admin"]), TaskController.fetchTasks);
 
 // get Tasks by ID
 router.get(
@@ -21,7 +14,7 @@ router.get(
   validateId,
   validate,
   authorize(["admin", "user"]),
-  getTasksById
+  TaskController.getTasksById
 );
 
 // Add A Task
@@ -30,7 +23,7 @@ router.post(
   validateTask,
   validate,
   authorize(["admin", "user"]),
-  createTask
+  TaskController.createTask
 );
 // Update a Task
 router.put(
@@ -39,7 +32,7 @@ router.put(
   validateTask,
   validate,
   authorize(["admin", "user"]),
-  updateTask
+  TaskController.updateTask
 );
 // Toggle Task to Completed or Incompleted
 router.patch(
@@ -47,7 +40,7 @@ router.patch(
   validateId,
   validate,
   authorize(["admin", "user"]),
-  updateTaskStatus
+  TaskController.updateTaskStatus
 );
 // Delete A Task
 router.delete(
@@ -55,7 +48,7 @@ router.delete(
   validateId,
   validate,
   authorize(["admin", "user"]),
-  removeTask
+  TaskController.removeTask
 );
 
 export default router;
