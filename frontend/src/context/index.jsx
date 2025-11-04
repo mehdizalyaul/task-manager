@@ -3,3 +3,4 @@ export * from "./NotificationContext";
 export * from "./SearchContext";
 export * from "./TaskContext";
 export * from "./ThemeContext";
+export * from "./ProjectContext";

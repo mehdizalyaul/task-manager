@@ -141,3 +141,22 @@ export const updateTask = async (token, updatedTask) => {
 
   return data;
 };
+
+export const getTasksByProject = async (token, projectId) => {
+  try {
+    const res = await fetch(`${BACKEND_URL}/projects/${projectId}/tasks`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error(res.message);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

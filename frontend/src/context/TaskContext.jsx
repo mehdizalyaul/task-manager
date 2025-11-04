@@ -7,28 +7,29 @@ import {
 } from "react";
 import { AuthContext } from "./AuthContext";
 import { TaskApi } from "../services/index";
+import { ProjectContext } from "./ProjectContext";
 export const TaskContext = createContext();
 
 const initialTasks = {
-  allTasks: [],
-  myTasks: [],
-  selectedTask: null,
+  // allTasks: [],
+  currentProjectTasks: [],
+  // selectedTask: null,
 };
 
 const taskReducer = (state, action) => {
   switch (action.type) {
-    case "SET_MY_TASKS":
-      return { ...state, myTasks: action.payload };
+    case "SET_CURRENT_PROJECT_TASKS":
+      return { ...state, currentProjectTasks: action.payload };
 
-    case "SET_TASKS":
-      return { ...state, allTasks: action.payload };
+    //  case "SET_TASKS":
+    //   return { ...state, allTasks: action.payload };
 
     case "ADD_TASK":
       // Add to both allTasks (admin) and myTasks (if relevant)
       return {
         ...state,
-        allTasks: [...state.allTasks, action.payload],
-        myTasks: [...state.myTasks, action.payload],
+        //  allTasks: [...state.allTasks, action.payload],
+        currentProjectTasks: [...state.myTasks, action.payload],
       };
 
     case "UPDATE_TASK": {
@@ -37,26 +38,26 @@ const taskReducer = (state, action) => {
 
       return {
         ...state,
-        allTasks: update(state.allTasks),
-        myTasks: update(state.myTasks),
+        //   allTasks: update(state.allTasks),
+        currentProjectTasks: update(state.myTasks),
       };
     }
 
     case "DELETE_TASK":
       return {
         ...state,
-        allTasks: state.allTasks.filter((t) => t.id !== action.payload),
+        // allTasks: state.allTasks.filter((t) => t.id !== action.payload),
         myTasks: state.myTasks.filter((t) => t.id !== action.payload),
       };
 
     case "UPDATE_TASK_STATUS":
       return {
         ...state,
-        allTasks: state.allTasks.map((t) =>
-          t.id === action.payload.id
-            ? { ...t, status: action.payload.status }
-            : t
-        ),
+        // allTasks: state.allTasks.map((t) =>
+        //   t.id === action.payload.id
+        //    ? { ...t, status: action.payload.status }
+        //     : t
+        //  ),
         myTasks: state.myTasks.map((t) =>
           t.id === action.payload.id
             ? { ...t, status: action.payload.status }
@@ -70,23 +71,31 @@ const taskReducer = (state, action) => {
 };
 
 export default function TaskProvider({ children }) {
-  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
+  const { projects, currentProject } = useContext(ProjectContext);
   const { token, user } = useContext(AuthContext);
+  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  console.log(currentProject);
   useEffect(() => {
-    const fetchTasks = async () => {
+    if (!projects || projects.length === 0 || !token || !user) return;
+
+    const fetchCurrentProjectTasks = async () => {
       try {
         setLoading(true);
-        let data;
+        let res;
 
         if (user.role === "admin") {
-          data = await TaskApi.getAllTasks(token);
-          dispatch({ type: "SET_TASKS", payload: data });
-        } else {
-          data = await TaskApi.getTasksById(token, user.id);
-          dispatch({ type: "SET_MY_TASKS", payload: data.tasks || [] });
+          //  data = await TaskApi.getAllTasks(token);
+          //   dispatch({ type: "SET_TASKS", payload: data });
+        } else if (user.role === "user" && currentProject) {
+          res = await TaskApi.getTasksByProject(token, currentProject);
+          const data = res.data;
+          console.log(data);
+          dispatch({
+            type: "SET_CURRENT_PROJECT_TASKS",
+            payload: data || [],
+          });
         }
       } catch (err) {
         console.error("Error fetching tasks:", err);
@@ -96,16 +105,14 @@ export default function TaskProvider({ children }) {
       }
     };
 
-    if (token && user) fetchTasks();
-  }, [token, user]);
-
-  const { allTasks, myTasks, selectedTask } = tasks;
+    fetchCurrentProjectTasks();
+  }, [projects, token, user, currentProject]);
 
   const value = {
-    allTasks,
-    myTasks,
-    selectedTask,
+    ...tasks,
     dispatch,
+    loading,
+    error,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
