@@ -9,46 +9,15 @@ export const getAll = () => {
     });
   });
 };
-/*
-// Add new task
-export const add = (newTask, userId) => {
-  const { title, description, status, priority, dueDate } = newTask;
-
-  return new Promise((resolve, reject) => {
-    db.query(
-      "INSERT INTO tasks (title,description, status, priority,due_date,created_by ) VALUES (? ,? ,? ,? ,? ,? )",
-      [title, description, status, priority, dueDate, userId],
-      (err, results) => {
-        if (err) return reject(err);
-        resolve({
-          id: results.insertId,
-          title,
-          description,
-          status,
-          priority,
-          dueDate,
-        });
-      }
-    );
-  });
-};
-*/
 
 // Add new task To project
-export const add = async (newProject) => {
-  const {
-    title,
-    description,
-    status,
-    priority,
-    due_date,
-    created_by,
-    project_id,
-  } = newProject;
+export const add = async (newProject, userId) => {
+  const { title, description, status, priority, due_date, projectId } =
+    newProject;
   return new Promise((resolve, reject) => {
     db.query(
       "INSERT INTO tasks (title,description, status, priority,due_date,created_by,project_id) VALUES (?, ?, ?,?,?,?,?);",
-      [title, description, status, priority, due_date, created_by, project_id],
+      [title, description, status, priority, due_date, userId, projectId],
       (err, results) => {
         if (err) return reject(err);
 

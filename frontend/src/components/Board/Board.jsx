@@ -2,7 +2,13 @@ import { useContext, useState, useCallback, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { AuthContext, SearchContext, NotificationContext } from "../../context";
+import {
+  AuthContext,
+  SearchContext,
+  NotificationContext,
+  ProjectContext,
+  TaskContext,
+} from "../../context";
 import { TaskApi } from "../../services/index";
 import {
   TaskList,
@@ -17,7 +23,7 @@ import "../../styles/Notification.css";
 import { STATUS } from "../../utils/constants";
 import { Outlet } from "react-router-dom";
 
-export default function Board({ tasks, dispatch }) {
+export default function Board() {
   const { user, logout, token } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,7 +31,8 @@ export default function Board({ tasks, dispatch }) {
   const { showNotification } = useContext(NotificationContext);
   const [activeTask, setActiveTask] = useState(null);
   const [modal, setModal] = useState({ open: false, task: null });
-
+  const { currentProjectTasks: tasks, dispatch } = useContext(TaskContext);
+  const { currentProject: projectId } = useContext(ProjectContext);
   if (!user || !token) {
     logout();
     return;
@@ -64,14 +71,13 @@ export default function Board({ tasks, dispatch }) {
 
   const addTask = useCallback(
     async (newTask) => {
-      console.log(newTask);
-
       setLoading(true);
       setError(null);
 
       try {
-        const data = await TaskApi.createTask(token, newTask);
-        console.log(data);
+        const res = await TaskApi.createTask(token, newTask, projectId);
+        if (!res.success) throw new Error(res.message);
+        const data = res.data;
         dispatch({ type: "ADD_TASK", payload: data });
         showNotification("Task added successfully!", "success");
       } catch (error) {
@@ -81,7 +87,7 @@ export default function Board({ tasks, dispatch }) {
         handleCloseModal();
       }
     },
-    [dispatch, showNotification, token]
+    [dispatch, showNotification, token, projectId]
   );
 
   const updateTask = useCallback(

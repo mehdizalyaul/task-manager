@@ -5,10 +5,7 @@ import { useContext } from "react";
 import "../styles/MyTasks.css";
 
 export default function MyTasks() {
-  const { projects, dispatch, currentProject, setCurrentProject } =
-    useContext(ProjectContext);
-
-  const { currentProjectTasks } = useContext(TaskContext);
+  const { projects, currentProject, dispatch } = useContext(ProjectContext);
 
   return (
     <div className="main-layout">
@@ -16,11 +13,8 @@ export default function MyTasks() {
         dispatch={dispatch}
         projects={projects}
         currentProject={currentProject}
-        setCurrentProject={setCurrentProject}
       />
-      {currentProject && (
-        <Board tasks={currentProjectTasks} dispatch={dispatch} />
-      )}
+      {currentProject && <Board />}
     </div>
   );
 }
