@@ -17,7 +17,6 @@ export default function TaskForm({ task, addTask, updateTask }) {
   const [assignee, setAssignee] = useState(task?.assignee || "");
   const [operation, setOperation] = useState(task ? "update" : "add");
   const titleRef = useRef();
-  console.log(dueDate);
   function handleSubmit(e) {
     const payload = {
       title,

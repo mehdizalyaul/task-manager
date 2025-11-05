@@ -1,12 +1,12 @@
 import { BACKEND_URL } from "../utils/constants";
 
-export const getByUser = async () => {
+export const getByUser = async (token) => {
   try {
     const response = await fetch(`${BACKEND_URL}/projects`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {

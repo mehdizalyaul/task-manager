@@ -91,10 +91,18 @@ body.dark .sidebar-projects-list {
   cursor: pointer;
 }
 
-.sidebar-project-item-active {
-  background-color: rgb(218, 27, 27);
+/* Active Project Item */
+body.light .sidebar-project-item.active {
+  background-color: #da1b1b; /* red for light mode */
+  color: #fff;
 }
 
+body.dark .sidebar-project-item.active {
+  background-color: #ff4c4c; /* brighter red for dark mode */
+  color: #fff;
+}
+
+/* Hover for projects (non-active) */
 body.light .sidebar-project-item:hover {
   background-color: #f7f7f7;
 }
@@ -107,4 +115,20 @@ body.dark .sidebar-project-item:hover {
   padding: 8px 12px;
   font-size: 0.9rem;
   opacity: 0.6;
+}
+
+.sidebar-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Optional: slightly darker icons on hover */
+body.light .sidebar-item:hover .sidebar-icon {
+  color: #555;
+}
+
+body.dark .sidebar-item:hover .sidebar-icon {
+  color: #ccc;
 }

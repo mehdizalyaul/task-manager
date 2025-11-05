@@ -12,7 +12,6 @@ export default function TaskList({
   id,
   title,
   tasks,
-
   deleteTask,
   handleOpenModal,
 }) {

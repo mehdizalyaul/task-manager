@@ -1,12 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-import { ThemeContext, AuthContext, SearchContext } from "../context";
+import { AuthContext, SearchContext } from "../context";
 
 import Search from "./Search";
 import "../styles/Navbar.css";
 
 export default function Navbar() {
-  const { toggleTheme } = useContext(ThemeContext);
   const { isAuthenticated, logout, user } = useContext(AuthContext);
   const { search, setSearch } = useContext(SearchContext);
   return (
@@ -33,20 +32,6 @@ export default function Navbar() {
         )}
       </div>
       {isAuthenticated && <Search search={search} setSearch={setSearch} />}
-
-      <div>
-        <input
-          type="checkbox"
-          id="checkbox"
-          className="checkbox"
-          onChange={toggleTheme}
-        />
-        <label htmlFor="checkbox" className="checkbox-label">
-          <i className="fas fa-moon"></i>
-          <i className="fas fa-sun"></i>
-          <span className="ball"></span>
-        </label>
-      </div>
     </nav>
   );
 }
