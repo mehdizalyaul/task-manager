@@ -4,7 +4,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { TaskItem, AddTaskButton } from "..";
+import { TaskItem, Button } from "..";
 
 import "../../styles/TaskList.css";
 
@@ -51,7 +51,12 @@ export default function TaskList({
         )}
       </div>
 
-      <AddTaskButton status={id} onClickAdd={handleOpenModal} />
+      <Button
+        title="Add new Task"
+        onClickAdd={handleOpenModal}
+        fullWidth={true}
+        alignLeft={true}
+      />
     </div>
   );
 }

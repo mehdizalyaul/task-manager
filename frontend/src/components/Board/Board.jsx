@@ -37,7 +37,6 @@ export default function Board() {
     logout();
     return;
   }
-
   const filteredTasks = useMemo(() => {
     if (!search) return tasks;
     return tasks.filter((task) =>
@@ -96,9 +95,13 @@ export default function Board() {
       setError(null);
 
       try {
-        await TaskApi.updateTask(token, updatedTask);
-        dispatch({ type: "UPDATE_TASK", payload: updatedTask });
-        showNotification("Task updated successfully!", "success");
+        const res = await TaskApi.updateTask(token, updatedTask, projectId);
+        if (!res.success) {
+          throw new Error(res.message);
+        } else {
+          dispatch({ type: "UPDATE_TASK", payload: updatedTask });
+          showNotification("Task updated successfully!", "success");
+        }
       } catch (error) {
         setError(error.response || "Unexpected error occurred");
       } finally {
@@ -106,7 +109,7 @@ export default function Board() {
         handleCloseModal();
       }
     },
-    [dispatch, showNotification, token]
+    [dispatch, showNotification, token, projectId]
   );
 
   const deleteTask = useCallback(

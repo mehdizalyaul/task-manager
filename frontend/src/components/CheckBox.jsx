@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { ThemeContext } from "../context";
 import "../styles/CheckBox.css";
+
 export default function CheckBox() {
   const { toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div>
+    <li className="sidebar-item">
       <input
         type="checkbox"
         id="checkbox"
@@ -17,6 +18,6 @@ export default function CheckBox() {
         <i className="fas fa-sun"></i>
         <span className="ball"></span>
       </label>
-    </div>
+    </li>
   );
 }

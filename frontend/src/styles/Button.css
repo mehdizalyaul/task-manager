@@ -1,0 +1,58 @@
+.add-task {
+  display: inline-flex; /* inline-flex so it behaves well inside navbar */
+  align-items: center;
+  justify-content: center; /* center by default */
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px; /* smaller font for navbar buttons */
+  font-weight: 500;
+  transition: background 0.3s, color 0.3s, transform 0.1s;
+  white-space: nowrap; /* prevent text wrap */
+  line-height: 1; /* compact line height */
+}
+
+/* Full width (optional for sidebar/buttons in column layout) */
+.add-task.full-width {
+  width: 100%;
+  justify-content: flex-start; /* override if needed */
+}
+
+/* Left-aligned content */
+.add-task.left {
+  justify-content: flex-start;
+  padding-left: 16px;
+}
+
+/* Light mode */
+.add-task.light-mode {
+  background-color: #f3f3f3;
+  color: #333;
+}
+
+.add-task.light-mode:hover {
+  background-color: #e0e0e0;
+}
+
+/* Dark mode */
+.add-task.dark-mode {
+  background-color: #444;
+  color: #fff;
+}
+
+.add-task.dark-mode:hover {
+  background-color: #555;
+}
+
+/* Icon inherits text color */
+.add-task .button-icon {
+  color: inherit;
+}
+
+/* Title */
+.button-title {
+  margin: 0;
+  white-space: nowrap; /* prevent wrapping */
+}

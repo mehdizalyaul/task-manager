@@ -4,6 +4,7 @@ import { AuthContext, SearchContext } from "../context";
 
 import Search from "./Search";
 import "../styles/Navbar.css";
+import Button from "./Button";
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useContext(AuthContext);
@@ -31,7 +32,11 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
       {isAuthenticated && <Search search={search} setSearch={setSearch} />}
+      {isAuthenticated && (
+        <Button fullWidth={false} alignLeft={false} title="Create Project" />
+      )}
     </nav>
   );
 }

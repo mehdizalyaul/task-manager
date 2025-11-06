@@ -1,6 +1,8 @@
-import "../styles/SideBar.css";
 import { Home, List, Settings, Layers } from "lucide-react"; // import icons
+import { NavLink } from "react-router-dom";
 import CheckBox from "./CheckBox";
+
+import "../styles/SideBar.css";
 
 export default function SideBar({ projects, currentProject, dispatch }) {
   return (
@@ -12,10 +14,12 @@ export default function SideBar({ projects, currentProject, dispatch }) {
           <Home className="sidebar-icon" />
           Dashboard
         </li>
-
         <li className="sidebar-item">
-          <List className="sidebar-icon" />
-          My Tasks
+          <NavLink to="/tasks/mine" className="navlink">
+            {" "}
+            <List className="sidebar-icon" />
+            My Tasks
+          </NavLink>
         </li>
 
         <li className="sidebar-item sidebar-projects">
@@ -48,8 +52,10 @@ export default function SideBar({ projects, currentProject, dispatch }) {
         </li>
 
         <li className="sidebar-item">
-          <Settings className="sidebar-icon" />
-          Settings
+          <NavLink to="/settings" className="navlink">
+            <Settings className="sidebar-icon" />
+            Settings
+          </NavLink>
         </li>
         <CheckBox />
       </ul>

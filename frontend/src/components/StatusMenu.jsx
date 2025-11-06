@@ -1,6 +1,6 @@
-import { STATUS } from "../utils/constants";
-import capitalize from "../utils/capitalize";
-import getStatusColor from "../utils/getStatusColor";
+import { STATUS } from "../utils/constants.js";
+import capitalize from "../utils/capitalize.js";
+import getStatusColor from "../utils/getStatusColor.js";
 import "../styles/TaskMenu.css";
 import { useState } from "react";
 

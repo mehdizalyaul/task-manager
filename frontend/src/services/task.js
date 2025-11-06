@@ -99,7 +99,7 @@ export const createTask = async (token, newTask, projectId) => {
   });
 
   const data = await res.json();
-  console.log(data);
+
   if (!res.ok) {
     // handle both array and string cases
     const message = Array.isArray(data?.message)
@@ -114,8 +114,7 @@ export const createTask = async (token, newTask, projectId) => {
   return data;
 };
 
-export const updateTask = async (token, updatedTask) => {
-  console.log("ghansard");
+export const updateTask = async (token, updatedTask, projectId) => {
   const id = updatedTask.id;
   const res = await fetch(`${BACKEND_URL}/tasks/${id}`, {
     method: "PUT",
@@ -123,10 +122,9 @@ export const updateTask = async (token, updatedTask) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(updatedTask),
+    body: JSON.stringify({ ...updatedTask, projectId }),
   });
   const data = await res.json();
-  console.log(data);
 
   if (!res.ok) {
     // handle both array and string cases

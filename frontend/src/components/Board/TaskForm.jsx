@@ -4,19 +4,20 @@ import { STATUS } from "../../utils/constants";
 import capitalize from "../../utils/capitalize";
 import getStatusColor from "../../utils/getStatusColor";
 import "../../styles/TaskForm.css";
+import transformDate from "../../utils/transformDate.js";
 
 export default function TaskForm({ task, addTask, updateTask }) {
   const [title, setTitle] = useState(task?.title || "");
   const [description, setDescription] = useState(task?.description || "");
   const [status, setStatus] = useState(task?.status || "todo");
   const [priority, setPriority] = useState(task?.priority || "medium");
-  const date = task?.dueDate
-    ? new Date(task.dueDate).toISOString().split("T")[0]
-    : "";
+  const date = task?.due_date ? transformDate(task.due_date) : "";
+
   const [dueDate, setDueDate] = useState(date);
   const [assignee, setAssignee] = useState(task?.assignee || "");
   const [operation, setOperation] = useState(task ? "update" : "add");
   const titleRef = useRef();
+
   function handleSubmit(e) {
     const payload = {
       title,

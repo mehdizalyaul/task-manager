@@ -8,5 +8,5 @@ export { default as TaskList } from "./Board/TaskList";
 export { default as TaskItem } from "./Board/TaskItem";
 export { default as Error } from "./Error";
 export { default as Modal } from "./Modal";
-export { default as AddTaskButton } from "./AddTaskButton";
+export { default as Button } from "./Button";
 export { default as StatusMenu } from "./StatusMenu";
