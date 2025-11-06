@@ -1,7 +1,8 @@
 import { User } from "../models/index.js";
+import { Profile } from "../models/index.js";
+
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
 const JWT_SECRET = process.env.JWT_SECRET;
 const EXPIRES_IN = process.env.EXPIRES_IN;
 if (!JWT_SECRET || !EXPIRES_IN) {
@@ -13,6 +14,8 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body;
     // Check if email already exists
     const isExist = await User.findByEmail(email);
+
+    console.log(first);
     if (isExist) {
       return res.status(400).json({ message: "Email already exists" });
     }
@@ -27,6 +30,14 @@ export const register = async (req, res) => {
     const token = jwt.sign({ userId, role }, JWT_SECRET, {
       expiresIn: EXPIRES_IN,
     });
+
+    //create profile for the user
+    const profile = await Profile.create(name, userId);
+    if (!profile) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Profile creation failed" });
+    }
 
     res.status(201).json({ token });
   } catch (error) {
