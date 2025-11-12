@@ -1,10 +1,19 @@
-import { Home, List, Settings, Layers } from "lucide-react"; // import icons
+import { Home, List, Settings, Layers, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import ProjectMenuItem from "./ProjectMenuItem";
 import CheckBox from "./CheckBox";
 
 import "../styles/SideBar.css";
+import { useContext } from "react";
+import { AuthContext } from "../context";
 
 export default function SideBar({ projects, currentProject, dispatch }) {
+  const { logout } = useContext(AuthContext);
+
+  const handleMyTasksClick = () => {
+    dispatch({ type: "SET_CURRENT_PROJECT", payload: null });
+  };
+
   return (
     <aside className="sidebar-container">
       <h2 className="sidebar-title">Menu</h2>
@@ -15,7 +24,11 @@ export default function SideBar({ projects, currentProject, dispatch }) {
           Dashboard
         </li>
         <li className="sidebar-item">
-          <NavLink to="/tasks/mine" className="navlink">
+          <NavLink
+            to="/tasks/mine"
+            className="navlink"
+            onClick={handleMyTasksClick}
+          >
             {" "}
             <List className="sidebar-icon" />
             My Tasks
@@ -30,20 +43,12 @@ export default function SideBar({ projects, currentProject, dispatch }) {
           <ul className="sidebar-projects-list">
             {projects && projects.length > 0 ? (
               projects.map((project) => (
-                <li
+                <ProjectMenuItem
                   key={project.id}
-                  className={`sidebar-project-item ${
-                    project.id === currentProject ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    dispatch({
-                      type: "SET_CURRENT_PROJECT",
-                      payload: project.id,
-                    });
-                  }}
-                >
-                  {project.title}
-                </li>
+                  project={project}
+                  dispatch={dispatch}
+                  currentProject={currentProject}
+                />
               ))
             ) : (
               <li className="sidebar-empty">No projects yet</li>
@@ -57,6 +62,12 @@ export default function SideBar({ projects, currentProject, dispatch }) {
             Settings
           </NavLink>
         </li>
+        <li className="sidebar-item">
+          <NavLink to="/login" className="navlink" onClick={logout}>
+            <LogOut className="sidebar-icon" /> Logout
+          </NavLink>
+        </li>
+
         <CheckBox />
       </ul>
     </aside>

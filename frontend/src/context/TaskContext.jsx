@@ -11,24 +11,24 @@ import { ProjectContext } from "./ProjectContext";
 export const TaskContext = createContext();
 
 const initialTasks = {
-  currentProjectTasks: [],
+  tasks: [],
 };
 
 const taskReducer = (state, action) => {
   switch (action.type) {
     case "SET_CURRENT_PROJECT_TASKS":
-      return { ...state, currentProjectTasks: action.payload };
+      return { ...state, tasks: action.payload };
 
     case "ADD_TASK":
       return {
         ...state,
-        currentProjectTasks: [...state.currentProjectTasks, action.payload],
+        tasks: [...state.tasks, action.payload],
       };
 
     case "UPDATE_TASK":
       return {
         ...state,
-        currentProjectTasks: state.currentProjectTasks.map((t) =>
+        tasks: state.tasks.map((t) =>
           t.id === action.payload.id ? action.payload : t
         ),
       };
@@ -36,13 +36,11 @@ const taskReducer = (state, action) => {
     case "DELETE_TASK":
       return {
         ...state,
-        currentProjectTasks: state.currentProjectTasks.filter(
-          (t) => t.id !== action.payload
-        ),
+        tasks: state.tasks.filter((t) => t.id !== action.payload),
       };
 
     case "SET_MY_TASKS": // for drag/drop reorder
-      return { ...state, currentProjectTasks: action.payload };
+      return { ...state, tasks: action.payload };
 
     default:
       return state;
@@ -64,9 +62,15 @@ export default function TaskProvider({ children }) {
         setLoading(true);
         let res;
 
-        if (user.role === "admin") {
-          //  data = await TaskApi.getAllTasks(token);
-          //   dispatch({ type: "SET_TASKS", payload: data });
+        //  if (user.role === "admin") {
+        //  data = await TaskApi.getAllTasks(token);
+        //   dispatch({ type: "SET_TASKS", payload: data });
+        // } else
+
+        if (user.role === "user" && !currentProject) {
+          res = await TaskApi.getTasksById(token);
+          const data = res.data;
+          dispatch({ type: "SET_MY_TASKS", payload: data || [] });
         } else if (user.role === "user" && currentProject) {
           res = await TaskApi.getTasksByProject(token, currentProject);
           const data = res.data;

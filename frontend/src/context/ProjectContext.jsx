@@ -44,9 +44,9 @@ export default function ProjectProvider({ children }) {
         const data = res.data;
         dispatch({ type: "SET_PROJECTS", payload: data });
 
-        if (data.length > 0) {
-          dispatch({ type: "SET_CURRENT_PROJECT", payload: data[0].id });
-        }
+        // if (data.length > 0) {
+        //  dispatch({ type: "SET_CURRENT_PROJECT", payload: data[0].id });
+        // }
       } catch (error) {
         console.error("Failed to fetch projects:", error);
       }
