@@ -14,12 +14,12 @@ export const getByUser = async (userId) => {
 };
 
 export const create = async (newProject) => {
-  const { title, description, created_by } = newProject;
+  const { title, description, userId } = newProject;
 
   return new Promise((resolve, reject) => {
     db.query(
       "INSERT INTO projects (title, description, created_by) VALUES (?, ?, ?)",
-      [title, description, created_by],
+      [title, description, userId],
       (err, results) => {
         if (err) return reject(err);
 
@@ -64,6 +64,7 @@ export const deleteById = async (projectId) => {
     );
   });
 };
+
 export const updateById = async (projectId, updatedProject) => {
   const { title, description } = updatedProject;
   return new Promise((resolve, reject) => {

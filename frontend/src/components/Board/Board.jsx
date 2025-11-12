@@ -31,7 +31,7 @@ export default function Board() {
   const { showNotification } = useContext(NotificationContext);
   const [activeTask, setActiveTask] = useState(null);
   const [modal, setModal] = useState({ open: false, task: null });
-  const { currentProjectTasks: tasks, dispatch } = useContext(TaskContext);
+  const { tasks, dispatch } = useContext(TaskContext);
   const { currentProject: projectId } = useContext(ProjectContext);
   if (!user || !token) {
     logout();

@@ -12,12 +12,12 @@ export const getAll = () => {
 
 // Add new task To project
 export const add = async (newProject, userId) => {
-  const { title, description, status, priority, due_date, projectId } =
+  const { title, description, status, priority, dueDate, projectId } =
     newProject;
   return new Promise((resolve, reject) => {
     db.query(
       "INSERT INTO tasks (title,description, status, priority,due_date,created_by,project_id) VALUES (?, ?, ?,?,?,?,?);",
-      [title, description, status, priority, due_date, userId, projectId],
+      [title, description, status, priority, dueDate, userId, projectId],
       (err, results) => {
         if (err) return reject(err);
 
@@ -37,12 +37,12 @@ export const add = async (newProject, userId) => {
 };
 
 // Update
-export const update = (newTask) => {
-  const { id, title, description, status, priority, dueDate } = newTask;
+export const update = (newTask, taskId) => {
+  const { title, description, status, priority, dueDate } = newTask;
   return new Promise((resolve, reject) => {
     db.query(
-      "UPDATE tasks SET title = ? , description = ? , status = ? , priority = ? , dueDate = ? WHERE id = ?",
-      [title, description, status, priority, dueDate, id],
+      "UPDATE tasks SET title = ? , description = ? , status = ? , priority = ? , due_date = ? WHERE id = ?",
+      [title, description, status, priority, dueDate, taskId],
       (err, results) => {
         if (err) return reject(err);
         resolve(results);
@@ -78,7 +78,7 @@ export const deleteOne = (id) => {
 // GET A Task by User ID
 export const getTasksById = (id) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM tasks WHERE user_id = ? ";
+    const sql = "SELECT * FROM tasks WHERE created_by = ? ";
     db.query(sql, [id], (error, results) => {
       if (error) {
         reject(error);

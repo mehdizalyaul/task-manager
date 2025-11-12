@@ -9,13 +9,7 @@ const router = express.Router();
 router.get("/", authorize(["admin"]), TaskController.fetchTasks);
 
 // get Tasks by ID
-router.get(
-  "/user/:id",
-  validateId,
-  validate,
-  authorize(["admin", "user"]),
-  TaskController.getTasksById
-);
+router.get("/user", authorize(["admin", "user"]), TaskController.getTasksById);
 
 // Add A Task
 router.post(

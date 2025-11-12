@@ -19,9 +19,9 @@ export const getAllTasks = async (token) => {
   }
 };
 
-export const getTasksById = async (token, id) => {
+export const getTasksById = async (token) => {
   try {
-    const res = await fetch(`${BACKEND_URL}/tasks/user/${id}`, {
+    const res = await fetch(`${BACKEND_URL}/tasks/user`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

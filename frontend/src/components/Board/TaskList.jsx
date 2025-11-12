@@ -53,7 +53,7 @@ export default function TaskList({
 
       <Button
         title="Add new Task"
-        onClickAdd={handleOpenModal}
+        onClickButton={handleOpenModal}
         fullWidth={true}
         alignLeft={true}
       />

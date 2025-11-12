@@ -48,7 +48,8 @@ export const updateTask = async (req, res, next) => {
         .status(400)
         .json({ success: false, message: "Updated Task Not Provided" });
     }
-    await Task.update(updatedTask);
+    await Task.update(updatedTask, id);
+
     res.json({ success: true, message: "Task updated successfully" });
   } catch (error) {
     next(error);
@@ -67,9 +68,8 @@ export const removeTask = async (req, res, next) => {
 };
 
 export const getTasksById = async (req, res, next) => {
-  console.log("getTasksById");
   try {
-    const { id } = req.params;
+    const id = req.user.userId;
     const tasks = await Task.getTasksById(id);
     res.status(200).json({ success: true, data: tasks });
   } catch (error) {

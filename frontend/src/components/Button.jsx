@@ -5,7 +5,7 @@ import "../styles/Button.css";
 
 export default function Button({
   title,
-  onClick,
+  onClickButton,
   fullWidth = false,
   alignLeft = false,
 }) {
@@ -16,7 +16,7 @@ export default function Button({
       className={`add-task ${fullWidth ? "full-width" : ""} ${
         alignLeft ? "left" : ""
       } ${theme === "dark" ? "dark-mode" : "light-mode"}`}
-      onClick={onClick}
+      onClick={onClickButton}
       aria-label={title}
     >
       <Plus className="button-icon" size={25} />
