@@ -8,6 +8,7 @@ import {
   NotificationContext,
   ProjectContext,
   TaskContext,
+  LoadingContext,
 } from "../../context";
 import { TaskApi } from "../../services/index";
 import {
@@ -26,13 +27,15 @@ import { Outlet } from "react-router-dom";
 export default function Board() {
   const { user, logout, token } = useContext(AuthContext);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
+
   const { search } = useContext(SearchContext);
   const { showNotification } = useContext(NotificationContext);
   const [activeTask, setActiveTask] = useState(null);
   const [modal, setModal] = useState({ open: false, task: null });
   const { tasks, dispatch } = useContext(TaskContext);
-  const { currentProject: projectId } = useContext(ProjectContext);
+  const { currentProject } = useContext(ProjectContext);
+
   if (!user || !token) {
     logout();
     return;
@@ -70,11 +73,11 @@ export default function Board() {
 
   const addTask = useCallback(
     async (newTask) => {
-      setLoading(true);
+      startLoading();
       setError(null);
 
       try {
-        const res = await TaskApi.createTask(token, newTask, projectId);
+        const res = await TaskApi.createTask(token, newTask, currentProject.id);
         if (!res.success) throw new Error(res.message);
         const data = res.data;
         dispatch({ type: "ADD_TASK", payload: data });
@@ -82,20 +85,24 @@ export default function Board() {
       } catch (error) {
         setError(error.response || "Unexpected error occurred");
       } finally {
-        setLoading(false);
+        stopLoading();
         handleCloseModal();
       }
     },
-    [dispatch, showNotification, token, projectId]
+    [dispatch, showNotification, token, currentProject]
   );
 
   const updateTask = useCallback(
     async (updatedTask) => {
-      setLoading(true);
+      startLoading();
       setError(null);
 
       try {
-        const res = await TaskApi.updateTask(token, updatedTask, projectId);
+        const res = await TaskApi.updateTask(
+          token,
+          updatedTask,
+          currentProject.id
+        );
         if (!res.success) {
           throw new Error(res.message);
         } else {
@@ -105,16 +112,16 @@ export default function Board() {
       } catch (error) {
         setError(error.response || "Unexpected error occurred");
       } finally {
-        setLoading(false);
+        stopLoading();
         handleCloseModal();
       }
     },
-    [dispatch, showNotification, token, projectId]
+    [dispatch, showNotification, token, currentProject]
   );
 
   const deleteTask = useCallback(
     async (id) => {
-      setLoading(true);
+      startLoading();
       setError(null);
       try {
         await TaskApi.deleteTask(token, id);
@@ -122,7 +129,7 @@ export default function Board() {
       } catch (error) {
         setError(error.message);
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [dispatch, token]
@@ -179,9 +186,7 @@ export default function Board() {
     setActiveTask(null);
   };
 
-  if (loading) return <Spinner />;
   if (error) return <div className="error">{error}</div>;
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -189,7 +194,7 @@ export default function Board() {
       transition={{ duration: 0.4 }}
       className="tasks-container"
     >
-      <h1>{"My Tasks"}</h1>
+      <h1>{currentProject ? currentProject?.title : "My Tasks"}</h1>
 
       <DndContext
         onDragStart={(event) => {

@@ -11,7 +11,9 @@ export default function SideBar({ projects, currentProject, dispatch }) {
   const { logout } = useContext(AuthContext);
 
   const handleMyTasksClick = () => {
+    console.log("first");
     dispatch({ type: "SET_CURRENT_PROJECT", payload: null });
+    localStorage.removeItem("currentProject");
   };
 
   return (
@@ -23,13 +25,8 @@ export default function SideBar({ projects, currentProject, dispatch }) {
           <Home className="sidebar-icon" />
           Dashboard
         </li>
-        <li className="sidebar-item">
-          <NavLink
-            to="/tasks/mine"
-            className="navlink"
-            onClick={handleMyTasksClick}
-          >
-            {" "}
+        <li className="sidebar-item" onClick={handleMyTasksClick}>
+          <NavLink to="/tasks/mine" className="navlink">
             <List className="sidebar-icon" />
             My Tasks
           </NavLink>
@@ -47,7 +44,7 @@ export default function SideBar({ projects, currentProject, dispatch }) {
                   key={project.id}
                   project={project}
                   dispatch={dispatch}
-                  currentProject={currentProject}
+                  currentProject={currentProject?.id}
                 />
               ))
             ) : (

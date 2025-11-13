@@ -8,6 +8,7 @@ import {
 import { AuthContext } from "./AuthContext";
 import { TaskApi } from "../services/index";
 import { ProjectContext } from "./ProjectContext";
+import { LoadingContext } from "./LoadingContext";
 export const TaskContext = createContext();
 
 const initialTasks = {
@@ -52,38 +53,37 @@ export default function TaskProvider({ children }) {
   const { token, user } = useContext(AuthContext);
   const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     if (!projects || projects.length === 0 || !token || !user) return;
 
     const fetchCurrentProjectTasks = async () => {
+      startLoading();
       try {
-        setLoading(true);
         let res;
 
-        //  if (user.role === "admin") {
-        //  data = await TaskApi.getAllTasks(token);
-        //   dispatch({ type: "SET_TASKS", payload: data });
-        // } else
-
-        if (user.role === "user" && !currentProject) {
+        if (user.role === "user" && !currentProject?.id) {
           res = await TaskApi.getTasksById(token);
           const data = res.data;
           dispatch({ type: "SET_MY_TASKS", payload: data || [] });
-        } else if (user.role === "user" && currentProject) {
-          res = await TaskApi.getTasksByProject(token, currentProject);
+        } else if (user.role === "user" && currentProject?.id) {
+          res = await TaskApi.getTasksByProject(token, currentProject?.id);
           const data = res.data;
           dispatch({
             type: "SET_CURRENT_PROJECT_TASKS",
             payload: data || [],
           });
+          localStorage.setItem(
+            "currentProject",
+            JSON.stringify(currentProject)
+          );
         }
       } catch (err) {
         console.error("Error fetching tasks:", err);
         setError(err.message);
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     };
 
@@ -93,7 +93,6 @@ export default function TaskProvider({ children }) {
   const value = {
     ...tasks,
     dispatch,
-    loading,
     error,
   };
 

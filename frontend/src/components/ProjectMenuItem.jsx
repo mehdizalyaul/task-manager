@@ -46,8 +46,9 @@ export default function ProjectMenuItem({ project, dispatch, currentProject }) {
         redirect(`/projects/${project.id}/tasks`);
         dispatch({
           type: "SET_CURRENT_PROJECT",
-          payload: project.id,
+          payload: project,
         });
+        localStorage.setItem("currentProject", JSON.stringify(project));
       }}
     >
       <div className="project-item-content">

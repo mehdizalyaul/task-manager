@@ -2,15 +2,10 @@ import { useParams, Link } from "react-router-dom";
 import { useContext } from "react";
 import { TaskContext } from "../context/TaskContext";
 import "../styles/TaskDetails.css";
-import Spinner from "../components/Spinner";
 
 export default function TaskDetails() {
   const { id } = useParams();
-  const { tasks, loading } = useContext(TaskContext);
-
-  if (loading) {
-    return <Spinner />;
-  }
+  const { tasks } = useContext(TaskContext);
 
   if (!tasks || tasks.length === 0) {
     return (

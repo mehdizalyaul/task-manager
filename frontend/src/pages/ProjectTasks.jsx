@@ -6,7 +6,7 @@ import { useContext } from "react";
 export default function ProjectTasks() {
   const { currentProject } = useContext(ProjectContext);
   const { projectId } = useParams();
-  if (currentProject !== Number(projectId)) {
+  if (currentProject?.id !== Number(projectId)) {
     return null;
   }
 

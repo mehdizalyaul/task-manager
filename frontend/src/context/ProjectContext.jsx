@@ -1,11 +1,14 @@
 import { createContext, useReducer, useEffect, useContext } from "react";
 import { ProjectApi } from "../services";
-import { AuthContext } from "./";
+import { LoadingContext } from "./LoadingContext";
+import { AuthContext } from "./AuthContext";
 export const ProjectContext = createContext();
 
 const initialState = {
   projects: [],
-  currentProject: null,
+  currentProject: localStorage.getItem("currentProject")
+    ? JSON.parse(localStorage.getItem("currentProject"))
+    : null,
 };
 
 const projectReducer = (state, action) => {
@@ -35,20 +38,20 @@ const projectReducer = (state, action) => {
 
 export default function ProjectProvider({ children }) {
   const [state, dispatch] = useReducer(projectReducer, initialState);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   const { token } = useContext(AuthContext);
   useEffect(() => {
     async function fetchProjects() {
+      startLoading();
       try {
         const res = await ProjectApi.getByUser(token);
         if (!res.success) throw new Error(res.message);
         const data = res.data;
         dispatch({ type: "SET_PROJECTS", payload: data });
-
-        // if (data.length > 0) {
-        //  dispatch({ type: "SET_CURRENT_PROJECT", payload: data[0].id });
-        // }
       } catch (error) {
         console.error("Failed to fetch projects:", error);
+      } finally {
+        stopLoading();
       }
     }
 

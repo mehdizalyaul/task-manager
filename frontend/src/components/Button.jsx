@@ -16,7 +16,7 @@ export default function Button({
       className={`add-task ${fullWidth ? "full-width" : ""} ${
         alignLeft ? "left" : ""
       } ${theme === "dark" ? "dark-mode" : "light-mode"}`}
-      onClick={onClickButton}
+      onClick={() => onClickButton()}
       aria-label={title}
     >
       <Plus className="button-icon" size={25} />
