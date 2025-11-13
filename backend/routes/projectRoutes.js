@@ -38,7 +38,7 @@ router.delete(
   validate,
   ProjectController.deleteProjectById
 );
-
+// Get All Tasks for a Project
 router.get(
   "/:id/tasks",
   authorize(["admin", "user"]),

@@ -2,10 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import routes from "./routes/index.js";
+import path from "path";
 
 dotenv.config();
 
 const app = express();
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // Middlewares
 app.use(cors());

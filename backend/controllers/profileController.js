@@ -42,7 +42,6 @@ export const createProfile = async (req, res, next) => {
   try {
     const userId = req.user.userId;
     const payload = req.body;
-
     const profileId = await Profile.create(payload, userId);
     res.status(201).json({ success: true, data: { profileId } });
   } catch (error) {

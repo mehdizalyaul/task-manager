@@ -22,6 +22,7 @@ export const createProject = async (req, res, next) => {
         .json({ success: false, message: "New Project Not Provided" });
     }
     const userId = req.user.userId;
+
     if (!userId) {
       res.status(400).json({ success: false, message: "User Not Found" });
     }
@@ -73,7 +74,7 @@ export const getAllProjectTasks = async (req, res, next) => {
   try {
     const { id } = req.params;
     const tasks = await Task.getByProject(id);
-    res.status(200).json({ success: false, data: tasks });
+    res.status(200).json({ success: true, data: tasks });
   } catch (error) {
     next(error);
   }

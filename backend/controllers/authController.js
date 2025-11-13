@@ -15,7 +15,6 @@ export const register = async (req, res) => {
     // Check if email already exists
     const isExist = await User.findByEmail(email);
 
-    console.log(first);
     if (isExist) {
       return res.status(400).json({ message: "Email already exists" });
     }
