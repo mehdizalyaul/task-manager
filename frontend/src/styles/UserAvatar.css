@@ -1,0 +1,132 @@
+/* === Wrapper === */
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* === Avatar Image === */
+.avatar-img {
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  transition: background 0.2s, transform 0.15s;
+}
+
+body.light .avatar-img:hover {
+  background-color: #f0f0f0;
+}
+
+body.dark .avatar-img {
+  border-color: #555;
+}
+
+body.dark .avatar-img:hover {
+  background-color: #444;
+}
+
+/* === Dropdown Menu (same style as .project-menu) === */
+.avatar-menu {
+  position: absolute;
+  right: 10px;
+  top: 50px;
+  margin-top: 6px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  z-index: 200;
+  padding: 25px;
+}
+
+body.light .avatar-menu {
+  background-color: #fff;
+  color: #333;
+}
+
+body.dark .avatar-menu {
+  background-color: #333;
+  border-color: #555;
+  color: #fff;
+}
+
+/* Menu buttons (same as project-menu buttons) */
+.avatar-menu button {
+  background: none;
+  border: none;
+  padding: 10px 14px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+body.light .avatar-menu button:hover {
+  background-color: #f7f7f7;
+}
+
+body.dark .avatar-menu button:hover {
+  background-color: #444;
+}
+
+/**/
+/* === Section Label (ACCOUNT) === */
+.profile-section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #888;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* === Profile container (Avatar + Info) === */
+.profile-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+.profile-content-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* === User Name === */
+.profile-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff; /* for dark mode */
+}
+
+/* === User Email === */
+.profile-email {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+/* Light mode variants */
+body.light .profile-name {
+  color: #222;
+}
+body.light .profile-email {
+  color: #444;
+}
+body.light .profile-section-label {
+  color: #666;
+}
+
+/* === Wrapper spacing === */
+.avatar-menu-profile {
+  padding: 12px 14px;
+  border-bottom: 1px solid #3a3a3a; /* matches Trello dark divider */
+}
+
+body.light .avatar-menu-profile {
+  border-bottom: 1px solid #ddd;
+}
