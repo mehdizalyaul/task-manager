@@ -17,6 +17,7 @@ import { AuthContext } from "./context/AuthContext";
 import { ProjectContext } from "./context";
 import Board from "./pages/MyTasks";
 import ProjectTasks from "./pages/ProjectTasks";
+import ProfilePage from "./pages/ProfilePage";
 
 export default function App() {
   const { user } = useContext(AuthContext);
@@ -50,9 +51,7 @@ export default function App() {
 
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
-            {user.role === "admin" && (
-              <Route path="/" element={<DashboardHome />} />
-            )}
+            <Route path="/" element={<DashboardHome />} />
 
             {/* My tasks page */}
             <Route path="/tasks/mine" element={<Board />} />
@@ -62,6 +61,7 @@ export default function App() {
               path="/projects/:projectId/tasks"
               element={<ProjectTasks />}
             />
+            <Route path="/profile" element={<ProfilePage />} />
 
             <Route path="/settings" element={<SettingsPage />} />
           </Route>

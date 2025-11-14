@@ -32,7 +32,7 @@ export const updateProfile = async (req, res, next) => {
     }
 
     const profile = await Profile.get(userId);
-    res.json({ profile });
+    res.json({ success: true, data: profile });
   } catch (error) {
     next(error);
   }

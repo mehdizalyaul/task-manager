@@ -1,0 +1,105 @@
+/* === Profile Form (same as task-form) === */
+.profile-form {
+  width: 100%;
+  padding: 50px 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark Mode */
+body.dark .profile-form {
+  background-color: #2f2f2f;
+  color: #f1f1f1;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* === Header === */
+.profile-form-header h2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.profile-form-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* === Input label with icon === */
+.input-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+body.dark .input-text {
+  color: #f1f1f1;
+}
+
+/* === Inputs === */
+.profile-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+body.dark .profile-form input {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: #e6e6e6;
+}
+
+/* === Focus Styles === */
+.profile-form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* === Avatar Preview === */
+.avatar-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* === Submit button === */
+.submit-change {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #3b82f6;
+  color: #fff;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.submit-change:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+body.dark .submit-change {
+  background-color: #2563eb;
+}
+
+body.dark .submit-change:hover {
+  background-color: #1d4ed8;
+}
