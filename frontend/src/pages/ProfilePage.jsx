@@ -1,37 +1,52 @@
-import { useContext, useEffect, useState } from "react";
-import { Type, BookText, Flag, Image as ImageIcon } from "lucide-react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Type, Phone, Flag, NotebookTabs } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
-import { getProfile, updateProfile } from "../services/profile";
-import "../styles/ProfilePage.css";
 import AvatarCircle from "../components/UserAvatar/AvatarCircle";
+import { ProfileApi } from "../services";
+import "../styles/ProfilePage.css";
+import { NotificationContext } from "../context/NotificationContext";
+import { LoadingContext } from "../context";
 
 export default function ProfilePage() {
   const { token } = useContext(AuthContext);
+  const { showNotification } = useContext(NotificationContext);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(null);
 
   const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [bio, setBio] = useState("");
+
+  const [phone_number, setPhoneNumber] = useState("");
   const [jobTitle, setJobTitle] = useState("");
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
+      startLoading();
       try {
-        const profile = await getProfile(token);
-
+        const profile = await ProfileApi.get(token);
         if (!profile) return;
-
-        setAvatar(profile.avatar_url || "");
+        const imageUrl = `http://localhost:5000${profile.avatar_url}`;
+        setPreview(imageUrl || "");
         setFullName(profile.full_name || "");
-        setPhone(profile.phone || "");
+        setBio(profile.bio || "");
+        setPhoneNumber(profile.phone_number || "");
         setJobTitle(profile.job_title || "");
       } catch (error) {
         console.error("fetchProfile error:", error);
+      } finally {
+        stopLoading();
       }
     };
 
     fetchProfile();
   }, []);
+
+  const handleAvatarClick = () => {
+    fileInputRef.current.click();
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -45,15 +60,19 @@ export default function ProfilePage() {
     const formData = new FormData();
     formData.append("avatar", avatar);
     formData.append("full_name", fullName);
-    formData.append("phone", phone);
+    formData.append("bio", bio);
+    formData.append("phone_number", phone_number);
     formData.append("job_title", jobTitle);
 
+    startLoading();
     try {
-      const updatedProfile = await updateProfile(token, formData);
-
+      const updatedProfile = await ProfileApi.update(token, formData);
       if (!updatedProfile) return;
+      showNotification("Profile Updated Successfully");
     } catch (error) {
       console.error("updateProfile error:", error);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -61,30 +80,24 @@ export default function ProfilePage() {
     <form className="profile-form" onSubmit={handleSubmit}>
       <div className="profile-form-header">
         <h2>Welcome {fullName || "User"}</h2>
-        <AvatarCircle size={100} />
-      </div>
 
-      {/* Avatar Upload */}
-      <label className="input-text">
-        <ImageIcon size={18} />
-        <span>Profile Image</span>
-      </label>
+        {/* Avatar Clickable Area */}
+        <div className="avatar-upload" onClick={handleAvatarClick}>
+          {preview ? (
+            <img src={preview} className="avatar-preview" alt="avatar" />
+          ) : (
+            <AvatarCircle size={130} />
+          )}
+        </div>
 
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-
-      {preview && (
-        <img
-          src={preview}
-          alt="preview"
-          className="avatar-preview"
-          style={{
-            width: "120px",
-            height: "120px",
-            borderRadius: "50%",
-            marginTop: "10px",
-          }}
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          style={{ display: "none" }}
         />
-      )}
+      </div>
 
       {/* Full Name */}
       <label className="input-text">
@@ -99,15 +112,26 @@ export default function ProfilePage() {
         required
       />
 
-      {/* Phone */}
+      {/* Bio */}
       <label className="input-text">
-        <BookText size={18} />
-        <span>Phone Number</span>
+        <NotebookTabs size={18} />
+        <span>Bio</span>
       </label>
       <input
         type="text"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
+        value={bio}
+        onChange={(e) => setBio(e.target.value)}
+        placeholder="Enter a description of you"
+      />
+
+      {/* Phone */}
+      <label className="input-text">
+        <Phone size={18} /> <span>Phone Number</span>
+      </label>
+      <input
+        type="text"
+        value={phone_number}
+        onChange={(e) => setPhoneNumber(e.target.value)}
         placeholder="Enter your phone number"
         required
       />

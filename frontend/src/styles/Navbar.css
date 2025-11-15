@@ -1,4 +1,4 @@
-nav {
+.navbar-navigation {
   display: flex;
   justify-content: space-between; /* push links left, toggle right */
   align-items: center;
@@ -7,12 +7,20 @@ nav {
   font-family: "Montserrat", sans-serif;
 }
 
-.navbar-navigation {
+.navbar-logo {
   display: flex;
   align-items: center;
 }
 
-nav a {
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+}
+
+.navbar-navigation a {
   color: white;
   text-decoration: none;
   font-weight: 500;
@@ -21,12 +29,12 @@ nav a {
   transition: background-color 0.2s ease-in-out, color 0.2s;
 }
 
-nav a:hover {
+.navbar-navigation a:hover {
   background-color: #007bff;
   color: #fff;
 }
 
-nav a.active {
+.navbar-navigation a.active {
   background-color: #0056b3;
   color: #fff;
 }

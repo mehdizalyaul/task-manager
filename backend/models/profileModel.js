@@ -26,13 +26,13 @@ export const create = (fullName, userId) => {
   });
 };
 
-export const update = (update, userId) => {
+export const update = (updatedData, userId) => {
   return new Promise((resolve, reject) => {
-    const { full_name, phone, bio, avatarUrl, job_title } = update;
+    const { full_name, phone_number, bio, avatar_url, job_title } = updatedData;
 
     db.query(
-      "UPDATE profiles SET full_name = ?, phone = ?, bio = ?, avatar_url = ?, job_title = ? WHERE user_id = ?",
-      [full_name, phone, bio, avatarUrl, job_title, userId],
+      "UPDATE profiles SET full_name = ?, phone_number = ?, bio = ?, avatar_url = ?, job_title = ? WHERE user_id = ?",
+      [full_name, phone_number, bio, avatar_url, job_title, userId],
       (err) => {
         if (err) return reject(err);
 
@@ -44,19 +44,6 @@ export const update = (update, userId) => {
             resolve(rows[0]);
           }
         );
-      }
-    );
-  });
-};
-
-export const uploadAvatar = (avatarUrl, userId) => {
-  return new Promise((resolve, reject) => {
-    db.query(
-      "UPDATE profiles SET avatar_url = ? WHERE user_id = ?",
-      [avatarUrl, userId],
-      (err) => {
-        if (err) return reject(err);
-        resolve();
       }
     );
   });
