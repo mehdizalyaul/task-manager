@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext, ProjectContext } from "../context";
 import { ProjectApi } from "../services";
+import DebounceInput from "./DebounceInput";
 import "../styles/ProjectForm.css";
 
 export default function ProjectForm({ closeModal }) {
@@ -8,6 +9,13 @@ export default function ProjectForm({ closeModal }) {
   const { dispatch } = useContext(ProjectContext);
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
+  const [members, setMembers] = useState([]);
+
+  const handleAddMember = (person) => {
+    if (!members.find((m) => m.user_id === person.user_id)) {
+      setMembers((prev) => [...prev, person]);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +50,12 @@ export default function ProjectForm({ closeModal }) {
           required
           className="project-input"
         />
+      </div>
+
+      <div>
+        <label className="project-label">Project members:</label>
+
+        <DebounceInput members={members} addMember={handleAddMember} />
       </div>
 
       <div>

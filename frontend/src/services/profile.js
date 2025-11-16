@@ -46,3 +46,32 @@ export const update = async (token, formData) => {
     return null;
   }
 };
+
+export const getByWord = async (token, word) => {
+  console.log(word);
+  try {
+    const res = await fetch(
+      `${BACKEND_URL}/profile/search?word=${encodeURIComponent(word)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch profiles");
+    }
+
+    const data = await res.json();
+    if (!data.success) {
+      throw new Error(data.message || "Failed to get profile");
+    }
+
+    return data.data;
+  } catch (error) {
+    console.error("getByWord error:", error);
+  }
+};

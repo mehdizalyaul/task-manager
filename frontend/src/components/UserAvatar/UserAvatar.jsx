@@ -1,9 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import "../../styles/UserAvatar.css";
 import AvatarCircle from "./AvatarCircle";
 import AvatarMenu from "./AvatarMenu";
+import { ProfileContext } from "../../context/ProfileContext";
 
 export default function UserAvatar() {
+  const { profile } = useContext(ProfileContext);
+  if (!profile) return null;
+  const imageUrl = profile.avatar_url
+    ? `http://localhost:5000${profile.avatar_url}`
+    : "";
+
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   const toggleAvatarMenu = () => {
@@ -22,9 +29,13 @@ export default function UserAvatar() {
 
   return (
     <div className="avatar-wrapper" ref={ref}>
-      <AvatarCircle size={45} onAvatarClick={toggleAvatarMenu} />
+      <AvatarCircle
+        avatarUrl={imageUrl}
+        size={45}
+        onAvatarClick={toggleAvatarMenu}
+      />
 
-      {isOpen && <AvatarMenu />}
+      {isOpen && <AvatarMenu avatarUrl={imageUrl} profile={profile} />}
     </div>
   );
 }

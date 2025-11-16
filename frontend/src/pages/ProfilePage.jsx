@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Type, Phone, Flag, NotebookTabs } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
+import { ProfileContext } from "../context/ProfileContext";
 import AvatarCircle from "../components/UserAvatar/AvatarCircle";
 import { ProfileApi } from "../services";
 import "../styles/ProfilePage.css";
@@ -9,44 +10,35 @@ import { LoadingContext } from "../context";
 
 export default function ProfilePage() {
   const { token } = useContext(AuthContext);
+  const { profile, setProfile } = useContext(ProfileContext);
   const { showNotification } = useContext(NotificationContext);
   const { startLoading, stopLoading } = useContext(LoadingContext);
+
   const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(null);
-
   const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
-
-  const [phone_number, setPhoneNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [jobTitle, setJobTitle] = useState("");
 
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      startLoading();
-      try {
-        const profile = await ProfileApi.get(token);
-        if (!profile) return;
-        const imageUrl = `http://localhost:5000${profile.avatar_url}`;
-        setPreview(imageUrl || "");
-        setFullName(profile.full_name || "");
-        setBio(profile.bio || "");
-        setPhoneNumber(profile.phone_number || "");
-        setJobTitle(profile.job_title || "");
-      } catch (error) {
-        console.error("fetchProfile error:", error);
-      } finally {
-        stopLoading();
-      }
-    };
+    if (!profile) return;
 
-    fetchProfile();
-  }, []);
+    setFullName(profile.full_name || "");
+    setBio(profile.bio || "");
+    setPhone(profile.phone_number || "");
+    setJobTitle(profile.job_title || "");
 
-  const handleAvatarClick = () => {
-    fileInputRef.current.click();
-  };
+    const imageUrl = profile.avatar_url
+      ? `http://localhost:5000${profile.avatar_url}`
+      : "";
+
+    setPreview(imageUrl);
+  }, [profile]);
+
+  const handleAvatarClick = () => fileInputRef.current.click();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -61,13 +53,16 @@ export default function ProfilePage() {
     formData.append("avatar", avatar);
     formData.append("full_name", fullName);
     formData.append("bio", bio);
-    formData.append("phone_number", phone_number);
+    formData.append("phone_number", phone);
     formData.append("job_title", jobTitle);
 
     startLoading();
     try {
-      const updatedProfile = await ProfileApi.update(token, formData);
-      if (!updatedProfile) return;
+      const updated = await ProfileApi.update(token, formData);
+      if (!updated) return;
+
+      setProfile(updated);
+
       showNotification("Profile Updated Successfully");
     } catch (error) {
       console.error("updateProfile error:", error);
@@ -81,7 +76,6 @@ export default function ProfilePage() {
       <div className="profile-form-header">
         <h2>Welcome {fullName || "User"}</h2>
 
-        {/* Avatar Clickable Area */}
         <div className="avatar-upload" onClick={handleAvatarClick}>
           {preview ? (
             <img src={preview} className="avatar-preview" alt="avatar" />
@@ -108,7 +102,6 @@ export default function ProfilePage() {
         type="text"
         value={fullName}
         onChange={(e) => setFullName(e.target.value)}
-        placeholder="Enter your full name"
         required
       />
 
@@ -117,22 +110,17 @@ export default function ProfilePage() {
         <NotebookTabs size={18} />
         <span>Bio</span>
       </label>
-      <input
-        type="text"
-        value={bio}
-        onChange={(e) => setBio(e.target.value)}
-        placeholder="Enter a description of you"
-      />
+      <input type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
 
       {/* Phone */}
       <label className="input-text">
-        <Phone size={18} /> <span>Phone Number</span>
+        <Phone size={18} />
+        <span>Phone Number</span>
       </label>
       <input
         type="text"
-        value={phone_number}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        placeholder="Enter your phone number"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
         required
       />
 
@@ -145,7 +133,6 @@ export default function ProfilePage() {
         type="text"
         value={jobTitle}
         onChange={(e) => setJobTitle(e.target.value)}
-        placeholder="Enter your job title"
         required
       />
 

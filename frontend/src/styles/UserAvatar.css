@@ -8,7 +8,6 @@
 .avatar-img {
   border-radius: 50%;
   cursor: pointer;
-  object-fit: cover;
   border: 2px solid #ddd;
   transition: background 0.2s, transform 0.15s;
 }
@@ -28,7 +27,7 @@ body.dark .avatar-img:hover {
 /* === Dropdown Menu (same style as .project-menu) === */
 .avatar-menu {
   position: absolute;
-  right: 10px;
+  right: 0px;
   top: 50px;
   margin-top: 6px;
   border-radius: 6px;
@@ -36,7 +35,7 @@ body.dark .avatar-img:hover {
   border: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  min-width: 140px;
+  min-width: 300px;
   z-index: 200;
   padding: 25px;
 }
@@ -104,7 +103,7 @@ body.dark .avatar-menu button:hover {
 }
 
 /* === User Email === */
-.profile-email {
+.profile-bio {
   margin: 0;
   font-size: 0.85rem;
   color: #ccc;
@@ -114,7 +113,7 @@ body.dark .avatar-menu button:hover {
 body.light .profile-name {
   color: #222;
 }
-body.light .profile-email {
+body.light .profile-bio {
   color: #444;
 }
 body.light .profile-section-label {
