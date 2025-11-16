@@ -65,3 +65,18 @@ export const createProfile = async (req, res, next) => {
     next(error);
   }
 };
+
+export const searchProfiles = async (req, res, next) => {
+  try {
+    const { word } = req.query;
+    if (!word) {
+      return res.status(400).json({ success: false, message: "Search failed" });
+    }
+
+    const profiles = await Profile.search(word);
+
+    res.status(200).json({ success: true, data: profiles });
+  } catch (error) {
+    next(error);
+  }
+};

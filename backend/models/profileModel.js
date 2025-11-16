@@ -48,3 +48,19 @@ export const update = (updatedData, userId) => {
     );
   });
 };
+
+// get profiles by word
+export const search = (word) => {
+  return new Promise((resolve, reject) => {
+    const searchTerm = `%${word}%`;
+
+    db.query(
+      "SELECT * FROM profiles WHERE LOWER(full_name) LIKE LOWER(?) OR LOWER(bio) LIKE LOWER(?) OR LOWER(job_title) LIKE LOWER(?) LIMIT 4",
+      [searchTerm, searchTerm, searchTerm],
+      (err, rows) => {
+        if (err) return reject(err);
+        resolve(rows);
+      }
+    );
+  });
+};
