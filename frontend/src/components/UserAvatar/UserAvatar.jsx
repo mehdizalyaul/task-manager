@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import "../../styles/UserAvatar.css";
 import AvatarCircle from "./AvatarCircle";
 import AvatarMenu from "./AvatarMenu";
 import { ProfileContext } from "../../context/ProfileContext";
+import "../../styles/UserAvatar.css";
 
 export default function UserAvatar() {
   const { profile } = useContext(ProfileContext);

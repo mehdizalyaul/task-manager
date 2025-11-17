@@ -1,0 +1,89 @@
+/* Labels */
+.project-label {
+  font-weight: 600;
+  color: #333;
+}
+body.dark .project-label {
+  color: #f1f1f1;
+}
+
+/* Inputs */
+.project-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+.project-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+body.dark .project-input {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: #e6e6e6;
+}
+
+/* Members row */
+.members-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  padding: 10px 0;
+}
+.plus-icon {
+  cursor: pointer;
+  color: #3a3a3a;
+  transition: transform 0.1s, color 0.3s;
+  place-self: center;
+}
+
+body.dark .plus-icon {
+  color: #f1f1f1;
+}
+
+.plus-icon:hover {
+  transform: translateY(-1px);
+  color: #2563eb;
+}
+
+/* List */
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.project-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.project-list-item:hover {
+  background-color: #f0f4ff;
+}
+body.dark .project-list-item:hover {
+  background-color: #3a3a3a;
+}
+
+/* Profile info */
+.profile-info .profile-name {
+  margin: 0;
+  font-weight: 600;
+}
+.profile-info .profile-job {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+body.dark .profile-info .profile-job {
+  color: #ccc;
+}

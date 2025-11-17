@@ -19,9 +19,11 @@ export default function ProjectForm({ closeModal }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const projectMembers = members.map((member) => member.user_id);
     const newProject = {
       title: projectTitle,
       description: projectDescription,
+      users: projectMembers,
     };
     const createProject = async () => {
       try {

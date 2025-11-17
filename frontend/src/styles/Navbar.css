@@ -19,22 +19,3 @@
   gap: 25px;
   width: 100%;
 }
-
-.navbar-navigation a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease-in-out, color 0.2s;
-}
-
-.navbar-navigation a:hover {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.navbar-navigation a.active {
-  background-color: #0056b3;
-  color: #fff;
-}

@@ -7,8 +7,6 @@
   flex-direction: column;
   gap: 16px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -16,10 +14,9 @@
 body.dark .project-form {
   background-color: #2f2f2f;
   color: #f1f1f1;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
-.project-form div {
+.project-form > div {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -73,6 +70,7 @@ body.dark .project-textarea {
   background-color: #3b82f6;
   color: #fff;
   transition: background-color 0.3s, transform 0.1s;
+  margin-top: 20px;
 }
 
 .project-button:hover {
@@ -81,9 +79,21 @@ body.dark .project-textarea {
 }
 
 body.dark .project-button {
-  background-color: #2563eb;
+  background: #333;
+  color: #fff;
+  border: 1px solid #444;
 }
 
 body.dark .project-button:hover {
-  background-color: #1d4ed8;
+  background-color: #444;
+}
+
+body.light .project-button {
+  background: #f9f9f9;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+body.light .project-button:hover {
+  background-color: #ddd;
 }

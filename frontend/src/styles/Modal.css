@@ -46,3 +46,19 @@ body.dark .modal-content {
   color: #f1f1f1;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
+
+.modal-close {
+  padding: 10px 15px;
+}
+
+body.light .modal-close {
+  background: #f9f9f9;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+body.dark .modal-close {
+  background: #333;
+  color: #fff;
+  border: 1px solid #444;
+}

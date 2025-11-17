@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
-import "../../styles/UserAvatar.css";
 import AvatarCircle from "./AvatarCircle";
-
+import "../../styles/AvatarMenu.css";
 export default function AvatarMenu({ avatarUrl, profile }) {
   return (
     <div className="avatar-menu">
@@ -19,10 +18,12 @@ export default function AvatarMenu({ avatarUrl, profile }) {
           </div>
         </div>
       </div>
-      <NavLink to="/profile">
-        <button>Profile</button>
+      <NavLink to="/profile" className="navlink">
+        Profile
       </NavLink>
-      <button>Settings</button>
+      <NavLink to="/settings" className="navlink">
+        Settings
+      </NavLink>
     </div>
   );
 }

@@ -44,7 +44,7 @@ export default function DebounceInput({ members, addMember }) {
   }, [debouncedQuery, token]);
 
   return (
-    <div className="project-form">
+    <div>
       <div className="search-members-container">
         <div className="members-row">
           {members.map((member) => (
@@ -55,11 +55,11 @@ export default function DebounceInput({ members, addMember }) {
                   ? `http://localhost:5000${member.avatar_url}`
                   : ""
               }
-              size={30}
+              size={40}
             />
           ))}
           <PlusCircleIcon
-            size={30}
+            size={35}
             className="plus-icon"
             onClick={handlePlus}
           />
@@ -81,7 +81,10 @@ export default function DebounceInput({ members, addMember }) {
           <li
             key={profile.user_id}
             className="project-list-item"
-            onClick={() => addMember(profile)}
+            onClick={() => {
+              addMember(profile);
+              setData([]);
+            }}
           >
             <AvatarCircle
               avatarUrl={

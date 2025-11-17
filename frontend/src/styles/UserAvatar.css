@@ -119,13 +119,3 @@ body.light .profile-bio {
 body.light .profile-section-label {
   color: #666;
 }
-
-/* === Wrapper spacing === */
-.avatar-menu-profile {
-  padding: 12px 14px;
-  border-bottom: 1px solid #3a3a3a; /* matches Trello dark divider */
-}
-
-body.light .avatar-menu-profile {
-  border-bottom: 1px solid #ddd;
-}

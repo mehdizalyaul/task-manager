@@ -12,7 +12,9 @@ export default function Modal({ children, closeModal }) {
         exit={{ scale: 0.8, opacity: 0 }}
       >
         {children}
-        <button onClick={closeModal}>Close</button>
+        <button className="modal-close" onClick={closeModal}>
+          Close
+        </button>
       </motion.div>
     </div>
   );

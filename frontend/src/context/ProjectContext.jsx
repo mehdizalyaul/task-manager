@@ -41,6 +41,7 @@ export default function ProjectProvider({ children }) {
   const { startLoading, stopLoading } = useContext(LoadingContext);
   const { token } = useContext(AuthContext);
   useEffect(() => {
+    if (!token) return null;
     async function fetchProjects() {
       startLoading();
       try {
