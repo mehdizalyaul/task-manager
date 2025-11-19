@@ -1,4 +1,4 @@
-import { Project, Task } from "../models/index.js";
+import { Project, ProjectMembers, Task } from "../models/index.js";
 
 // Get all projects for a user
 export const getAllUserProjects = async (req, res, next) => {
@@ -15,26 +15,43 @@ export const getAllUserProjects = async (req, res, next) => {
 // Create a new project
 export const createProject = async (req, res, next) => {
   try {
-    const newProject = req.body;
-    if (!newProject) {
-      res
-        .status(400)
-        .json({ success: false, message: "New Project Not Provided" });
-    }
-    const userId = req.user.userId;
+    const { title, description, members } = req.body;
 
+    // Validate required fields
+    if (!title || !description) {
+      return res.status(400).json({
+        success: false,
+        message: "Project title and description are required",
+      });
+    }
+
+    const userId = req.user?.userId;
     if (!userId) {
-      res.status(400).json({ success: false, message: "User Not Found" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
     }
-    const projects = await Project.create({ ...newProject, userId });
-    if (!projects) {
-      res.status(500).json({ success: false, message: "Project Not Created" });
+
+    const projectId = await Project.create({ title, description, userId });
+
+    if (!projectId) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Project not created" });
     }
-    res.status(200).json({ success: true, data: projects });
+
+    if (Array.isArray(members) && members.length > 0) {
+      await ProjectMembers.add(projectId, members);
+    }
+
+    return res
+      .status(201)
+      .json({ success: true, data: { id: projectId, title, description } });
   } catch (error) {
     next(error);
   }
 };
+
 // Get single project by ID
 export const getProjectById = async (req, res, next) => {
   try {
@@ -79,3 +96,27 @@ export const getAllProjectTasks = async (req, res, next) => {
     next(error);
   }
 };
+/*
+// Assign users to a project
+export const assignProjectToUsers = async (req, res, next) => {
+  try {
+    const { users } = req.body;
+    const { id: project_id } = req.params;
+
+    // Validate input
+    if (!users || users.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No users assigned" });
+    }
+
+    await ProjectMembers.add(users, project_id);
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Users assigned successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+*/
