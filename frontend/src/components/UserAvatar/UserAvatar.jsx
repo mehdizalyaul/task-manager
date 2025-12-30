@@ -6,22 +6,19 @@ import "../../styles/UserAvatar.css";
 
 export default function UserAvatar() {
   const { profile } = useContext(ProfileContext);
-  if (!profile) return null;
-  const imageUrl = profile.avatar_url
-    ? `http://localhost:5000${profile.avatar_url}`
-    : "";
 
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
-  const toggleAvatarMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
-  // Close dropdown on outside click
+
+  const imageUrl = profile?.avatar_url
+    ? `http://localhost:5000${profile?.avatar_url}`
+    : "";
+
+  const toggleAvatarMenu = () => setIsOpen((prev) => !prev);
+
   useEffect(() => {
     function handleOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setIsOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target)) setIsOpen(false);
     }
     document.addEventListener("mousedown", handleOutside);
     return () => document.removeEventListener("mousedown", handleOutside);
@@ -34,7 +31,6 @@ export default function UserAvatar() {
         size={45}
         onAvatarClick={toggleAvatarMenu}
       />
-
       {isOpen && <AvatarMenu avatarUrl={imageUrl} profile={profile} />}
     </div>
   );

@@ -88,8 +88,13 @@ body.dark .profile-bio {
   transition: background 0.3s, transform 0.1s;
 }
 
-.navlink:hover {
+body.dark .avatar-menu .navlink:hover {
   background-color: #444;
+  transform: translateY(-1px);
+}
+
+body.light .avatar-menu .navlink:hover {
+  background-color: #f9f9f9;
   transform: translateY(-1px);
 }
 
