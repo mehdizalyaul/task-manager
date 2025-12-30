@@ -31,8 +31,9 @@ const projectReducer = (state, action) => {
       };
     case "SET_CURRENT_PROJECT":
       return { ...state, currentProject: action.payload };
-    default:
+    default: {
       return state;
+    }
   }
 };
 
@@ -41,7 +42,7 @@ export default function ProjectProvider({ children }) {
   const { startLoading, stopLoading } = useContext(LoadingContext);
   const { token } = useContext(AuthContext);
   useEffect(() => {
-    if (!token) return null;
+    if (!token) return;
     async function fetchProjects() {
       startLoading();
       try {
