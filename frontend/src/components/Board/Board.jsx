@@ -1,5 +1,4 @@
 import { useContext, useState, useCallback, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import {
@@ -11,18 +10,11 @@ import {
   LoadingContext,
 } from "../../context";
 import { TaskApi } from "../../services/index";
-import {
-  TaskList,
-  TaskItem,
-  Spinner,
-  Error,
-  Modal,
-  StatusMenu,
-  TaskForm,
-} from "../";
+import { TaskList, TaskItem, Error, Modal, StatusMenu, TaskForm } from "../";
 import "../../styles/Notification.css";
 import { STATUS } from "../../utils/constants";
 import { Outlet } from "react-router-dom";
+import BoardHeader from "./BoardHeader";
 
 export default function Board() {
   const { user, logout, token } = useContext(AuthContext);
@@ -188,13 +180,9 @@ export default function Board() {
 
   if (error) return <div className="error">{error}</div>;
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="tasks-container"
-    >
-      <h1>{currentProject ? currentProject?.title : "My Tasks"}</h1>
+    <>
+      {}
+      <BoardHeader title={currentProject ? currentProject?.title : "Tasks"} />
 
       <DndContext
         onDragStart={(event) => {
@@ -242,6 +230,6 @@ export default function Board() {
 
       <Outlet />
       {error && <Error message={error} />}
-    </motion.div>
+    </>
   );
 }

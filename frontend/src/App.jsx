@@ -8,21 +8,16 @@ import Navbar from "./components/Navbar";
 import Notification from "./components/Notification";
 import Modal from "./components/Modal";
 import ProjectForm from "./components/ProjectForm";
-import SideBar from "./components/SideBar";
-import "./styles/MyTasks.css";
 import "./styles/global.css";
 
-import { useContext, useState } from "react";
-import { AuthContext } from "./context/AuthContext";
-import { ProjectContext } from "./context";
-import Board from "./pages/MyTasks";
+import { useState } from "react";
+
 import ProjectTasks from "./pages/ProjectTasks";
 import ProfilePage from "./pages/ProfilePage";
+import MyTasks from "./pages/MyTasks";
+import Layout from "./components/Layout";
 
 export default function App() {
-  const { user } = useContext(AuthContext);
-  const { projects, currentProject, dispatch } = useContext(ProjectContext);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
@@ -36,25 +31,20 @@ export default function App() {
     <div>
       {" "}
       <Navbar openModal={openModal} />
-      <div className="main-layout">
-        {user.id && user.role && (
-          <SideBar
-            dispatch={dispatch}
-            projects={projects}
-            currentProject={currentProject}
-          />
-        )}
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<Layout />}>
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<DashboardHome />} />
 
             {/* My tasks page */}
-            <Route path="/tasks/mine" element={<Board />} />
+            <Route
+              path="/tasks/mine"
+              element={<MyTasks openModal={openModal} />}
+            />
 
             {/* Project tasks page */}
             <Route
@@ -65,15 +55,14 @@ export default function App() {
 
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
-        </Routes>
-
-        {isOpen && (
-          <Modal closeModal={closeModal}>
-            <ProjectForm closeModal={closeModal} />
-          </Modal>
-        )}
-        <Notification />
-      </div>
+        </Route>
+      </Routes>
+      {isOpen && (
+        <Modal closeModal={closeModal}>
+          <ProjectForm closeModal={closeModal} />
+        </Modal>
+      )}
+      <Notification />
     </div>
   );
 }

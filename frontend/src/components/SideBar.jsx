@@ -5,9 +5,10 @@ import CheckBox from "./CheckBox";
 
 import "../styles/SideBar.css";
 import { useContext } from "react";
-import { AuthContext } from "../context";
+import { AuthContext, ProjectContext } from "../context";
 
-export default function SideBar({ projects, currentProject, dispatch }) {
+export default function SideBar() {
+  const { projects, currentProject, dispatch } = useContext(ProjectContext);
   const { logout } = useContext(AuthContext);
 
   const handleMyTasksClick = () => {
@@ -22,9 +23,12 @@ export default function SideBar({ projects, currentProject, dispatch }) {
 
       <ul className="sidebar-list">
         <li className="sidebar-item">
-          <Home className="sidebar-icon" />
-          Dashboard
+          <NavLink to="/" className="navlink">
+            <Home className="sidebar-icon" />
+            Dashboard
+          </NavLink>
         </li>
+
         <li className="sidebar-item" onClick={handleMyTasksClick}>
           <NavLink to="/tasks/mine" className="navlink">
             <List className="sidebar-icon" />

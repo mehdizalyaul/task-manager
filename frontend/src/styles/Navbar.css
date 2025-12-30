@@ -1,10 +1,18 @@
 .navbar-navigation {
   display: flex;
-  justify-content: space-between; /* push links left, toggle right */
+  justify-content: space-between;
   align-items: center;
-  background-color: #222;
+  background: linear-gradient(
+    to left,
+    #42a5ff,
+    /* blue */ #7fcfff,
+    #fff,
+    #ffd29a,
+    #ff9f32 /* orange */
+  );
   padding: 15px 30px;
   font-family: "Montserrat", sans-serif;
+  z-index: -1;
 }
 
 .navbar-logo {
@@ -18,4 +26,8 @@
   justify-content: center;
   gap: 25px;
   width: 100%;
+}
+
+body.light .navbar-navigation {
+  background-color: #ecececfa;
 }
