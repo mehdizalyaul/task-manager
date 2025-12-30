@@ -1,0 +1,78 @@
+.trello-header {
+  height: 56px;
+  padding: 0 16px;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-family: sans-serif;
+  margin-bottom: 20px;
+}
+
+/* Left section */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.board-title {
+  margin: 0;
+}
+
+/* Right section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Icons */
+.icon {
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+
+/* Share button */
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.share-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Avatar */
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: orange;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
