@@ -1,10 +1,9 @@
-# 🗂️ Task Manager
+#  Task Manager
 
 A simple and modern **task management application** built with **React.js** on the frontend and **Node.js (Express)** on the backend, using **MySQL** for data persistence.  
-This project focuses on clean architecture, REST API communication, and an intuitive user experience.
----
 
-## ✨ Features
+
+##  Features
 
 - Create, edit, and delete projects (boards)
 - Create, update, and delete tasks
@@ -16,7 +15,7 @@ This project focuses on clean architecture, REST API communication, and an intui
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 ### Frontend: React.js, JavaScript (ES6+), CSS, dnd-kit, Fetch API
 
